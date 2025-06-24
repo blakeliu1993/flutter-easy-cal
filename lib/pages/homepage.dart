@@ -17,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   bool _isDarkMode = false;
   final Transfer _transfer = Transfer(
     unitType: UnitType.distance,
-    sourceUnit: 1,
-    targetUnit: 2,
+    sourceUnit: 0,
+    targetUnit: 1,
   );
   List<String> _unitLists = [];
   List<String> _sourceUnitLists = ['Km'];
@@ -41,6 +41,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _initUnitLists();
+    _sourceUnitController.text = _unitLists[_transfer.sourceUnit];
+    _targetUnitController.text = _unitLists[_transfer.targetUnit];
   }
 
   void _initUnitLists() {
@@ -112,16 +114,25 @@ class _HomePageState extends State<HomePage> {
 
   void _switchToDistance() {
     _transfer.setUnitType(UnitType.distance);
+    _transfer.setSourceUnit(0);
+    _transfer.setTargetUnit(1);
     _initUnitLists();
-    _sourceUnitController.text = '';
-    _targetUnitController.text = '';
+    _sourceUnitController.text = _unitLists[_transfer.sourceUnit];
+    _targetUnitController.text = _unitLists[_transfer.targetUnit];
     _sourceController.text = '';
     _targetController.text = '';
     if (mounted) {
       setState(() {
         _sourceUnitLists;
         _targetUnitList;
-        _resetUnitList;
+        _resetUnitList =
+            _unitLists
+                .where(
+                  (e) =>
+                      e != _sourceUnitController.text &&
+                      e != _targetUnitController.text,
+                )
+                .toList();
       });
     }
 
@@ -130,16 +141,25 @@ class _HomePageState extends State<HomePage> {
 
   void _switchToWeight() {
     _transfer.setUnitType(UnitType.weight);
+    _transfer.setSourceUnit(0);
+    _transfer.setTargetUnit(1);
     _initUnitLists();
-    _sourceUnitController.text = '';
-    _targetUnitController.text = '';
+    _sourceUnitController.text = _unitLists[_transfer.sourceUnit];
+    _targetUnitController.text = _unitLists[_transfer.targetUnit];
     _sourceController.text = '';
     _targetController.text = '';
     if (mounted) {
       setState(() {
         _sourceUnitLists;
         _targetUnitList;
-        _resetUnitList;
+        _resetUnitList =
+            _unitLists
+                .where(
+                  (e) =>
+                      e != _sourceUnitController.text &&
+                      e != _targetUnitController.text,
+                )
+                .toList();
       });
     }
     Navigator.pop(context);
@@ -147,16 +167,25 @@ class _HomePageState extends State<HomePage> {
 
   void _switchToTemperature() {
     _transfer.setUnitType(UnitType.temperature);
+    _transfer.setSourceUnit(0);
+    _transfer.setTargetUnit(1);
     _initUnitLists();
-    _sourceUnitController.text = '';
-    _targetUnitController.text = '';
+    _sourceUnitController.text = _unitLists[_transfer.sourceUnit];
+    _targetUnitController.text = _unitLists[_transfer.targetUnit];
     _sourceController.text = '';
     _targetController.text = '';
     if (mounted) {
       setState(() {
         _sourceUnitLists;
         _targetUnitList;
-        _resetUnitList;
+        _resetUnitList =
+            _unitLists
+                .where(
+                  (e) =>
+                      e != _sourceUnitController.text &&
+                      e != _targetUnitController.text,
+                )
+                .toList();
       });
     }
     Navigator.pop(context);
@@ -328,11 +357,19 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Spacer(flex: 1),
                   ElevatedButton(
-                    // TODO : After clicked , should show a animation.
                     onPressed: _exchangeSourceTarget,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepOrange,
                       foregroundColor: Colors.white,
+                      minimumSize: Size(screenWidth * 1, screenHeight * 0.05),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        side: BorderSide(
+                          color: Colors.green,
+                          style: BorderStyle.solid,
+                          width: 5,
+                        ),
+                      ),
                     ),
                     child: Text('Exchange'),
                   ),
